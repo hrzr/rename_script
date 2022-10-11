@@ -7,7 +7,10 @@ import sys
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        rename_pattern_file = "rename.csv"
+        if os.path.exists("rename.csv"):
+            rename_pattern_file = "rename.csv"
+        else:
+            raise FileNotFoundError("Can't find `rename.csv`")
     else:
         rename_pattern_file = sys.argv[1]
     with open(rename_pattern_file) as rename_pattern:
@@ -22,4 +25,3 @@ if __name__ == "__main__":
                     os.rename(line[0], line[1])
             else:
                 print("Some other error occured")
-
