@@ -20,11 +20,17 @@ if __name__ == "__main__":
         file = csv.reader(rename_pattern)
         for line in file:
             if os.path.exists(line[0]) and os.path.isfile(line[0]):
-                os.rename(line[0], line[1])
+                if line[1].lower().endswith('.jpg'):
+                    os.rename(line[0], line[1])
+                else:
+                    os.rename(line[0], f"{line[1]}.jpg")
             elif not os.path.exists(line[0]):
                 print(f"No such file or directory: {line[0]}")
             elif os.path.isdir(line[0]):
                 if input(f"{line[0]} is a directory. Rename anyway?").lower().startswith('y'):
-                    os.rename(line[0], line[1])
+                    if line[1].lower().endswith('.jpg'):
+                        os.rename(line[0], line[1])
+                    else:
+                        os.rename(line[0], f"{line[1]}.jpg")
             else:
                 print("Some other error occured")
