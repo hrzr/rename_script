@@ -1,7 +1,25 @@
+#!/usr/bin/python3
+
 import csv
 import os
 import sys
 
 
 if __name__ == "__main__":
-    print(sys.argv)
+    if len(sys.argv) < 2:
+        rename_pattern_file = "rename.csv"
+    else:
+        rename_pattern_file = sys.argv[1]
+    with open(rename_pattern_file) as rename_pattern:
+        file = csv.reader(rename_pattern)
+        for line in file:
+            if os.path.exists(line[0]) and os.path.isfile(line[0]):
+                os.rename(line[0], line[1])
+            elif not os.path.exists(line[0]):
+                print(f"No such file or directory: {line[0]}")
+            elif os.path.isdir(line[0]):
+                if input(f"{line[0]} is a directory. Rename anyway?").lower().startswith('y'):
+                    os.rename(line[0], line[1])
+            else:
+                print("Some other error occured")
+
