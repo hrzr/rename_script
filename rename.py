@@ -12,7 +12,10 @@ if __name__ == "__main__":
         else:
             raise FileNotFoundError("Can't find `rename.csv`")
     else:
-        rename_pattern_file = sys.argv[1]
+        if os.path.exists(sys.argv[1]):
+            rename_pattern_file = sys.argv[1]
+        else:
+            raise FileNotFoundError(f"Can't find {sys.argv[1]}")
     with open(rename_pattern_file) as rename_pattern:
         file = csv.reader(rename_pattern)
         for line in file:
